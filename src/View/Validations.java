@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +41,7 @@ public class Validations {
     
     public static int validateData(String user, String pass) throws Exception{
         if(!user.equals("Ingrese email") && !user.equals("")){
-            File users = new File("lib\\data.txt");
+            File users = new File("lib/data.txt");
             
             if(!users.exists()){
                 try {
@@ -102,7 +103,7 @@ public class Validations {
      * 5 si todo está bien
      */
     
-    public static boolean createProyect(JTextField name, JTextField budget, JTextField time){
+    public static boolean createProyect(JTextField name, JTextField budget,JTextField time){
         if(name.getText().trim().length() > 0 && name.getText().matches("[A-Z a-z 0-9 ]+")){
             if(budget.getText().matches("[0-9 ]+") && budget.getText().trim().length() > 0){
                 fixNumber(budget);
@@ -120,11 +121,11 @@ public class Validations {
                             "Error en el tiempo", JOptionPane.ERROR_MESSAGE);
                         return false;
                     }
-                    JOptionPane.showMessageDialog(null, "Creacion exitosa",
-                            "Creación exitosa", JOptionPane.INFORMATION_MESSAGE);
-                    return true;
-                }
-                else{
+                JOptionPane.showMessageDialog(null, "Creacion exitosa",
+                        "Creación exitosa", JOptionPane.INFORMATION_MESSAGE);
+                return true;
+            }
+            else{
                     JOptionPane.showMessageDialog(null, "Error, el tiempo contiene caracteres no validos"
                             + "(Solo se puede ingresar numeros enteros)",
                             "Error en el tiempo", JOptionPane.ERROR_MESSAGE);

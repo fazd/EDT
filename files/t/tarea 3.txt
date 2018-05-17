@@ -1,0 +1,2 @@
+1.15##tarea 3##50##2018-07-13##60##false##501.15##tarea 3##50##2018-07-13##60##false##50
+Entregable 1,paquete 4,entregable 54

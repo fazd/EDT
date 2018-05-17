@@ -1,0 +1,2 @@
+1.4##entegable4##500##2018-06-16##30##false##5001.4##entegable4##500##2018-06-16##30##false##500
+entegable1,entegable2,entegable3

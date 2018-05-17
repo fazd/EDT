@@ -507,10 +507,10 @@ public class Login extends javax.swing.JFrame {
     private void agregarTareaBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarTareaBMouseClicked
         if(agregarTareaB.isEnabled()){
             String [] name = flagSession.getText().split("@uninorte.edu.co");
-            File temp = new File("files\\"+name[0]);
+            File temp = new File("files/"+name[0]);
             if(temp.exists()){
                 try {
-                    temp = new File("files\\"+name[0]+"\\"+name[0]+"_info.txt");
+                    temp = new File("files/"+name[0]+"/"+name[0]+"_info.txt");
                     NodeBS root = NodeBS.fileToTree(temp);
                     Tareas t = new Tareas(root,name[0]);
                     current= this;
@@ -534,10 +534,10 @@ public class Login extends javax.swing.JFrame {
     private void observarBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_observarBMouseClicked
         if(observarB.isEnabled()){
             String [] name = flagSession.getText().split("@uninorte.edu.co");            
-            File temp = new File("files\\"+name[0]);
+            File temp = new File("files/"+name[0]);
             if(temp.exists()){
                 try {
-                    temp = new File("files\\"+name[0]+"\\"+name[0]+"_info.txt");
+                    temp = new File("files/"+name[0]+"/"+name[0]+"_info.txt");
                     NodeBS root = NodeBS.fileToTree(temp);
                     Mostrar m = new Mostrar(root,name[0]);
                     current= this;
@@ -560,7 +560,7 @@ public class Login extends javax.swing.JFrame {
 
     private void generarTxtBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generarTxtBMouseClicked
         String [] temporal = flagSession.getText().split("@uninorte.edu.co");            
-        File tempo = new File("files\\"+temporal[0]);
+        File tempo = new File("files/"+temporal[0]);
         if(generarTxtB.isEnabled() && tempo.exists()){
             JFileChooser jf =  new JFileChooser();
             jf.setDialogTitle("Seleccione donde guardará");
@@ -571,8 +571,8 @@ public class Login extends javax.swing.JFrame {
                     path +=".txt";
                     String [] name = flagSession.getText().split("@uninorte.edu.co");
                     File f = new File(path);
-                    File temp = new File("files\\"+name[0]+"\\"+name[0]+".txt");
-                    Archivos.copyFile(temp, f);
+                    File temp = new File("files/"+name[0]+"/"+name[0]+".txt");
+                    Archivo.copyFile(temp, f);
                     JOptionPane.showMessageDialog(this,"El archivo ha sido guardado en "+path,
                             "Creacion exitosa", JOptionPane.INFORMATION_MESSAGE);
                 } catch (IOException ex) {
@@ -591,10 +591,10 @@ public class Login extends javax.swing.JFrame {
     private void reporteBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reporteBMouseClicked
         if(reporteB.isEnabled()){
             String name = flagSession.getText().split("@uninorte.edu.co")[0];
-            File temp = new File("files\\"+name);
+            File temp = new File("files/"+name);
             if(temp.exists()){
                 try {
-                    temp = new File("files\\"+name+"\\"+name+"_info.txt");
+                    temp = new File("files/"+name+"/"+name+"_info.txt");
                     NodeBS root = NodeBS.fileToTree(temp);
                     Reporte r = new Reporte(root,name);
                     current= this;

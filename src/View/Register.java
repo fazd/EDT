@@ -250,7 +250,7 @@ public class Register extends javax.swing.JFrame {
         if (isValidEmail(email) && pass.matches("[a-zA-Z0-9]+")) {
             try {
                 if (Validations.validateData(email, null) != 3) {
-                    FileWriter fstream = new FileWriter("lib\\data.txt", true);
+                    FileWriter fstream = new FileWriter("lib/data.txt", true);
                     try (BufferedWriter out = new BufferedWriter(fstream)) {
                         out.write(encryption.cifra(email) + "," + encryption.cifra(pass));
                         out.newLine();

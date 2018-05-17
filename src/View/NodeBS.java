@@ -1,9 +1,16 @@
 
 package View;
 
+import Grafo.Grafo;
+import Grafo.MyArray;
+import Grafo.Nodo;
 import static View.Validations.numTabs;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +31,30 @@ public class NodeBS {
     private int time;
     private String index;
     private long currentBudget;
+    private LocalDate fechaInicio;
+    private String rootPath;
+    private String dep;
 
+    
+    public NodeBS (String nombre, int time){
+        this.nombre = nombre;
+        this.time = time;
+    }
+    
+    
+    public NodeBS(String nombre, long budget, LocalDate date, int time, String user) throws Exception {
+        this.nombre = nombre;
+        this.budget = budget;
+        this.index = "1";
+        this.isParent = true;
+        this.currentBudget = budget;
+        this.fechaInicio = date;
+        this.time = time;
+        this.rootPath = "files/"+user;
+        Archivo.createProyectFile(this, user);
+    }
+    
+    
     /**
      * Este constructor  es para agregar un nodo que proviene del archivo y no es raiz
      * @param nombre Nombre del paquete o entregable
@@ -35,13 +65,16 @@ public class NodeBS {
      */
     
     
-    public NodeBS(String nombre, long budget, int time,String index, boolean Parent) {
+    private NodeBS(String nombre, long budget, LocalDate date, int time,String index, boolean Parent,String path) {
         this.nombre = nombre;
         this.budget = budget;
         this.time = time;
         this.index = index;
         this.isParent = Parent;
         this.currentBudget = budget;
+        this.fechaInicio = date;
+        this.rootPath = path;
+        System.out.println("path: "+ this.rootPath);
     }
     
     /**
@@ -61,7 +94,13 @@ public class NodeBS {
         this.nombre = nombre;
         this.isParent = Parent;
         this.currentBudget = budget;
+        this.rootPath = parent.getRootPath();
+        this.fechaInicio = parent.getFechaInicio().plusDays(time);
         parent.addChildren(this);
+        if (!Parent){
+            Archivo.createEntregable(this);
+        }
+        
     }
     
     
@@ -238,7 +277,7 @@ public class NodeBS {
                         "error",JOptionPane.ERROR_MESSAGE);
             }
             else{
-                model.removeNodeFromParent(ancestor);;
+                model.removeNodeFromParent(ancestor);
                 NodeBS parent = findParent(null,root,nodo);
                 if(parent.numberChildren() == 1){
                     parent.children=null;
@@ -343,13 +382,15 @@ public class NodeBS {
      * @return Un nodo con la información de la linea
      */
     
-    private static NodeBS stringToNode(NodeBS root,String str){
+    private static NodeBS stringToNode(NodeBS root,String str, String path){
+        //System.out.println("la linea es: "+str);
         String [] line = str.split("##");
         long budget = Long.parseLong(line[2]);
-        int time = Integer.parseInt(line[3]);
-        long currentB = Long.parseLong(line[5]);
+        LocalDate date = LocalDate.parse(line[3]);
+        int time = Integer.parseInt(line[4]);
+        long currentB = Long.parseLong(line[6]);
         if(line[0].equals("1")){
-           return new NodeBS(line[1],budget,time,line[0],true);
+           return new NodeBS(line[1],budget,date,time,line[0],true,path);
         }
         String parentIndex = parentIndex(line[0]);
         NodeBS parent = findByIndex(root, parentIndex);
@@ -359,7 +400,7 @@ public class NodeBS {
         }
         else{
             boolean par;
-            if(line[4].equalsIgnoreCase("true")){
+            if(line[5].equalsIgnoreCase("true")){
                 par = true;
             }
             else{
@@ -425,15 +466,21 @@ public class NodeBS {
     
     public static NodeBS fileToTree(File f) throws Exception{
         NodeBS root = null;
+        String name = f.getParent();
+        //System.out.println("name: "+name);
+        //System.out.println("canonical p: "+f.getCanonicalPath());
+        //System.out.println("path: "+f.getPath());
+        //System.out.println("absolute path: "+f.getAbsolutePath());
+        //System.out.println("parent: "+f.getParent());
         try {
             Scanner lector = new Scanner(f);
             String line = lector.nextLine();
             line = encryption.descifra(line);
-            root = stringToNode(null,line);
+            root = stringToNode(null,line, name);
             while(lector.hasNext()){
                 line = lector.nextLine();
                 line = encryption.descifra(line);
-                NodeBS aux = stringToNode(root,line);
+                NodeBS aux = stringToNode(root,line,null);
                 NodeBS parent = findByIndex(root,parentIndex(aux.getIndex()));
                 root.add(parent, aux);
             }
@@ -444,6 +491,43 @@ public class NodeBS {
         }
         return root;
     }
+    
+    
+    public static void findEntregables(NodeBS raiz,NodeBS node, Grafo g){
+        if(node != null){
+            if(!node.isIsParent()){
+                System.out.println("Found it");
+                Nodo ng =new Nodo(node);
+                g.addNodo(ng);
+            }
+            for(int i = 1; i <=node.numberChildren(); i++){
+                findEntregables(raiz, node.nextChildren(i), g);
+            }
+        }
+    }
+    
+    
+    public static Grafo toGraph(NodeBS root) throws FileNotFoundException{
+        Grafo g = new Grafo();
+        findEntregables(root, root, g);
+        System.out.println("size = "+g.getNodos().size());
+        System.out.println("los nodos serán");
+        g.print();
+        MyArray p = g.getNodos();
+        while(p!= null){
+            Nodo n = (Nodo) p.getInfo();
+            System.out.println("Inicio");
+            System.out.println("nombre del nodo "+n.getNombre());
+            g.makeDependencies(n);
+            System.out.println("FIN");
+            p = p.getLink();
+        }
+        System.out.println("en tograph");
+        g.print();
+        return g;
+    }
+    
+    
     
     /**
      * Esta función confirma si el nodo puede tener hijos o no
@@ -516,6 +600,42 @@ public class NodeBS {
     public long getCurrentBudget() {
         return currentBudget;
     }
+
+    
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public String getRootPath() {
+        return rootPath;
+    }
+
+    public void setDep(String dep) {
+        this.dep = dep;
+        String folder = rootPath;
+        String pathName = folder+"/"+nombre+".txt";
+        System.out.println("path:"+ pathName);
+        File f = new File(pathName);
+        try {
+            //if(!f.exists()){
+                f.createNewFile();
+                FileWriter fstream = new FileWriter(f, true);
+                BufferedWriter out = new BufferedWriter(fstream);
+                out.write(this.toInfo());
+                out.newLine();
+                out.write(dep);
+                out.close();
+            //}
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+    
+    
     
     /**
      * Esta subrutina muestra toda la información del nodo en consola
@@ -526,6 +646,7 @@ public class NodeBS {
         System.out.println("index = "+index);
         System.out.println("budget = "+budget);
         System.out.println("time = "+time);
+        System.out.println("");
         System.out.println("num hijos = "+this.numberChildren());
         System.out.println("________________________");
         for(int i = 1; i <= this.numberChildren(); i++){
@@ -540,7 +661,8 @@ public class NodeBS {
     
     
     public String toInfo(){
-        String line = index+"##"+nombre+"##"+budget+"##"+time+"##"+isParent+"##"+currentBudget;
+        String line = index+"##"+nombre+"##"+budget+"##"+fechaInicio.toString()+
+                "##"+time+"##"+isParent+"##"+currentBudget;
         return line;
     }
     

@@ -5,7 +5,9 @@
  */
 package View;
 
+import Grafo.Grafo;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,6 +114,7 @@ public class Mostrar extends javax.swing.JFrame {
         txtB = new javax.swing.JButton();
         reporteB = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,7 +134,6 @@ public class Mostrar extends javax.swing.JFrame {
 
         atrasB.setBackground(new java.awt.Color(255, 255, 255));
         atrasB.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        atrasB.setForeground(new java.awt.Color(0, 0, 0));
         atrasB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/previous.png"))); // NOI18N
         atrasB.setText("Atrás");
         atrasB.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +143,6 @@ public class Mostrar extends javax.swing.JFrame {
         });
 
         eliminarB.setBackground(new java.awt.Color(255, 255, 255));
-        eliminarB.setForeground(new java.awt.Color(0, 0, 0));
         eliminarB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/delete.png"))); // NOI18N
         eliminarB.setText("Eliminar Tarea");
         eliminarB.addActionListener(new java.awt.event.ActionListener() {
@@ -151,7 +152,6 @@ public class Mostrar extends javax.swing.JFrame {
         });
 
         agregarB.setBackground(new java.awt.Color(255, 255, 255));
-        agregarB.setForeground(new java.awt.Color(0, 0, 0));
         agregarB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/add.png"))); // NOI18N
         agregarB.setText("Agregar Tarea");
         agregarB.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +161,6 @@ public class Mostrar extends javax.swing.JFrame {
         });
 
         txtB.setBackground(new java.awt.Color(255, 255, 255));
-        txtB.setForeground(new java.awt.Color(0, 0, 0));
         txtB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/txt.png"))); // NOI18N
         txtB.setText("Generar Txt");
         txtB.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +170,6 @@ public class Mostrar extends javax.swing.JFrame {
         });
 
         reporteB.setBackground(new java.awt.Color(255, 255, 255));
-        reporteB.setForeground(new java.awt.Color(0, 0, 0));
         reporteB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/analytics.png"))); // NOI18N
         reporteB.setText("Reporte");
         reporteB.addActionListener(new java.awt.event.ActionListener() {
@@ -184,6 +182,13 @@ public class Mostrar extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Acciones");
+
+        jButton1.setText("grafo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -201,6 +206,10 @@ public class Mostrar extends javax.swing.JFrame {
                     .addComponent(agregarB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(reporteB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(55, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(160, 160, 160)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,7 +224,9 @@ public class Mostrar extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(reporteB, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(39, 39, 39)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(atrasB)
                 .addGap(21, 21, 21))
         );
@@ -226,23 +237,23 @@ public class Mostrar extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(proyectoL, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(proyectoL, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addComponent(proyectoL, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 51, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(proyectoL, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -284,7 +295,7 @@ public class Mostrar extends javax.swing.JFrame {
                         tree.setModel(model);
                     }
                     try {
-                      Archivos.write(f, f2, rootNode);
+                      Archivo.write(f, f2, rootNode);
                     } catch (IOException ex) {
                         Logger.getLogger(Mostrar.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {
@@ -304,7 +315,7 @@ public class Mostrar extends javax.swing.JFrame {
                             tree.setModel(model);
                         }
                         try {
-                            Archivos.write(f, f2, rootNode);
+                            Archivo.write(f, f2, rootNode);
                         } catch (IOException ex) {
                             Logger.getLogger(Mostrar.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (Exception ex) {
@@ -319,7 +330,7 @@ public class Mostrar extends javax.swing.JFrame {
                 //model.removeNodeFromParent(parent);
                 tree.setModel(model);
                 try {
-                    Archivos.write(f, f2, rootNode);
+                    Archivo.write(f, f2, rootNode);
                 } catch (IOException ex) {
                     Logger.getLogger(Mostrar.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (Exception ex) {
@@ -350,7 +361,7 @@ public class Mostrar extends javax.swing.JFrame {
             File f = new File(path);
             File temp = new File("files\\"+user+"\\"+user+".txt");
             try {
-                Archivos.copyFile(temp, f);
+                Archivo.copyFile(temp, f);
             } catch (Exception ex) {
                 Logger.getLogger(Mostrar.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -360,6 +371,18 @@ public class Mostrar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtBActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            Grafo g = NodeBS.toGraph(rootNode);
+            g.print();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Mostrar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -399,6 +422,7 @@ public class Mostrar extends javax.swing.JFrame {
     private javax.swing.JButton agregarB;
     private javax.swing.JButton atrasB;
     private javax.swing.JButton eliminarB;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

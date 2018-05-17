@@ -49,8 +49,8 @@ public class Tareas extends javax.swing.JFrame {
     public Tareas(NodeBS rootNode, String user) {
         initComponents();
         this.setLocationRelativeTo(null);
-        String pathName = "files\\" + user + "\\" + user + ".txt";
-        String pathName2 = "files\\" + user + "\\" + user + "_info.txt";
+        String pathName = "files/" + user + "/" + user + ".txt";
+        String pathName2 = "files/" + user + "/" + user + "_info.txt";
         this.f = new File(pathName);
         this.f2 = new File(pathName2);
         paqueteB.setSelected(true);
@@ -418,8 +418,14 @@ public class Tareas extends javax.swing.JFrame {
                 if(padre.canAdd(time, budget)){
                     NodeBS n = new NodeBS(padre, nombre, budget, time,par);
                     rootNode.add(padre, n);
+                    if(!par){
+                        System.out.println("hola");
+                        Dependencia d = new Dependencia(rootNode,n);
+                        d.setVisible(true);
+                        d.setLocationRelativeTo(null);
+                    }
                     try {
-                        Archivos.write(f, f2, rootNode);
+                        Archivo.write(f, f2, rootNode);
                     } catch (IOException ex) {
                         Logger.getLogger(Tareas.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (Exception ex) {
