@@ -621,7 +621,7 @@ public class NodeBS {
                 f.createNewFile();
                 FileWriter fstream = new FileWriter(f, true);
                 BufferedWriter out = new BufferedWriter(fstream);
-                out.write(this.toInfo());
+                //out.write(this.toInfo());
                 out.newLine();
                 out.write(dep);
                 out.close();

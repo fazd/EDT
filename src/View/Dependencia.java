@@ -23,7 +23,7 @@ public class Dependencia extends javax.swing.JFrame {
     
     private void fillList(NodeBS raiz){
         if(raiz != null){
-            if(!raiz.isIsParent()){
+            if(!raiz.isIsParent() && !raiz.getNombre().equals(node.getNombre())){
                model.addElement(raiz.getNombre());
             }
             for(int i = 1; i<= raiz.numberChildren(); i++){
@@ -42,9 +42,28 @@ public class Dependencia extends javax.swing.JFrame {
         initComponents();
         model = new DefaultListModel();
         lista.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        fillList(raiz);
         this.node = node;
+        fillList(raiz);
         lista.setModel(model);
+        nombreL.setText(node.getNombre());
+        precioL.setText(""+node.getBudget());
+        tiempoL.setText(""+node.getTime());
+        lista.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                if (!arg0.getValueIsAdjusting()) {
+                    int [] k =lista.getSelectedIndices();
+                    String str = "";
+                    for(int i = 0; i<k.length; i++){
+                        str += ","+lista.getModel().getElementAt(k[i]);
+
+                    }
+                    str = str.substring(1);
+                    depenL.setText(str);
+                }
+            }
+        });
     }
     
 
@@ -211,14 +230,7 @@ public class Dependencia extends javax.swing.JFrame {
     }//GEN-LAST:event_agregarBActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        /*if(depenL.getText().equals("")){
-            JOptionPane.showMessageDialog(this, "Error, no ha seleccionado dependencias",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            
-        }
-        else{
-            this.setVisible(false);
-        }*/
+        node.setDep(depenL.getText());
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

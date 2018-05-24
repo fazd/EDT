@@ -49,8 +49,6 @@ public class Grafo {
     }
 
     public void makeDependencies(Nodo in) throws FileNotFoundException {
-        //MyArray p = nodos;
-        //Nodo n = (Nodo) p.info;
         NodeBS nodo = in.getNodo();
         String folder = nodo.getRootPath();
         String pathName = folder+"/"+in.getNombre()+".txt";
@@ -64,12 +62,12 @@ public class Grafo {
 
             for(int i = 0; i < K.length; i++){
                 Nodo temp = MyArray.find(nodos, K[i]);
-                System.out.println("en in:"+ in.getNombre()+" se encontro "+
-                        temp.getNombre());
                 if(nodo == null){
                     System.out.println("badd");
                 }
                 else{
+                    System.out.println("en in:"+ in.getNombre()+" se encontro "+
+                        temp.getNombre());
                     addArista(in, temp);
                 }
             }
@@ -103,8 +101,7 @@ public class Grafo {
         Nodo n6 = new Nodo(n6BS);
         Nodo n7 = new Nodo(n7BS);
         
-        
-        
+       
         g.addNodo(n1);
         g.addNodo(n2);
         g.addNodo(n3);
@@ -125,15 +122,10 @@ public class Grafo {
         g.addArista(n2, n6);
         g.addArista(n2, n7);
         
-        
-        
-        
+
         System.out.println("el tamaño es: "+g.nodos.size());
         g.print();
-        
-        
-        
-        
+
         
     }
     
