@@ -5,6 +5,7 @@
  */
 package View;
 
+import Grafo.DrawGraph;
 import Grafo.Grafo;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -375,6 +376,9 @@ public class Mostrar extends javax.swing.JFrame {
         try {
             Grafo g = NodeBS.toGraph(rootNode);
             g.print();
+            DrawGraph dw = new DrawGraph(g,rootNode);
+            dw.setVisible(true);
+            this.setVisible(false);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Mostrar.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -121,8 +121,10 @@ public class Grafo {
         g.addArista(n2, n5);
         g.addArista(n2, n6);
         g.addArista(n2, n7);
-        
 
+        DrawGraph dg = new DrawGraph(g);
+        dg.setVisible(true);
+        
         System.out.println("el tamaño es: "+g.nodos.size());
         g.print();
 

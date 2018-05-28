@@ -5,8 +5,11 @@
  */
 package Grafo;
 
+import View.NodeBS;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.File;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,9 +17,26 @@ import java.awt.Graphics2D;
  */
 public class DrawGraph extends javax.swing.JFrame {
 
-    /**
-     * Creates new form DrawGraph
-     */
+    private MyArray nodes;
+    private MyArray edges;
+    private MyArray visited;
+    private MyArray adj;
+    private Graphics graphic;
+    private int cont;
+    private NodeBS root;
+    
+    
+    public DrawGraph(Grafo g, NodeBS root){
+        initComponents();
+        this.nodes = g.getNodos();
+        this.edges = g.getAristas();
+        graphic = panel.getGraphics();
+        numero.setText(""+nodes.size());
+        cont=0;
+        this.root = root;
+    }
+    
+    
     public DrawGraph() {
         initComponents();
     }
@@ -30,69 +50,204 @@ public class DrawGraph extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        depen = new javax.swing.JButton();
         panel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        numero = new javax.swing.JLabel();
+        x = new javax.swing.JLabel();
+        y = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        report = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        depen.setText("dependencias");
+        depen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                depenActionPerformed(evt);
             }
         });
 
         panel.setBackground(new java.awt.Color(255, 0, 255));
+        panel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                panelMouseMoved(evt);
+            }
+        });
+        panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 440, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        jLabel1.setText("Cantidad de nodos");
+
+        numero.setText("numero");
+
+        x.setText("jLabel2");
+
+        y.setText("jLabel3");
+
+        jLabel4.setText("X");
+
+        jLabel5.setText("Y");
+
+        report.setColumns(20);
+        report.setRows(5);
+        jScrollPane1.setViewportView(report);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
+                .addGap(23, 23, 23)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(jButton1)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addGap(18, 18, 18)
+                            .addComponent(y))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGap(18, 18, 18)
+                            .addComponent(x)))
+                    .addComponent(depen)
+                    .addComponent(jLabel1)
+                    .addComponent(numero)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jButton1)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(numero)
+                        .addGap(18, 18, 18)
+                        .addComponent(depen)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(x)
+                            .addComponent(jLabel4))
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(y)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    public void drawCircle(Graphics g){
-        g.drawOval(100, 225, 300, 300);
-        //g.drawOval(225, 225, 30, 30);
-       // g.fillOval(225, 225, 30, 30);
+    
+    private void calcFechas(){
+        int i = 0;
+        while(i < nodes.size()){
+            Nodo n = (Nodo) nodes.get(i);
+            NodeBS nodo = n.getNodo();
+            nodo.setFechaInicio(root);
+            i++;
+        }
     }
     
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        drawCircle(panel.getGraphics());
+    private void reporte(){
+        int index = 0;
+        String text="";
+        while(index < nodes.size()){
+            Nodo n = (Nodo) nodes.get(index);
+            System.out.println("found: "+ n.getNombre());
+            NodeBS nodo = n.getNodo();
+            text +=nodo.getNombre()+": "+nodo.getFechaInicio()+"\n";
+            report.setText(text);
+            index++;
+        }
+    }
+    
+    
+    private void depenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depenActionPerformed
+        int index = 0;
+        while(index < nodes.size()){
+            Nodo n = (Nodo) nodes.get(index);
+            System.out.println("found: "+ n.getNombre());
+            NodeBS nodo = n.getNodo();
+            String str = nodo.getDep();
+            System.out.println(str);
+            if(!str.equals("")){
+                String dep [] = str.split(",");
+                for(int i = 0; i < dep.length; i++){
+                    Nodo temp = MyArray.find(nodes, dep[i]);
+                    NodeBS tempBS = temp.getNodo();
+                    System.out.println("x;"+nodo.getX());
+                    System.out.println("y:"+nodo.getY());
+                    System.out.println("x2;"+tempBS.getX());
+                    System.out.println("y2:"+tempBS.getY());
+                    graphic.drawLine(nodo.getX(), nodo.getY(), tempBS.getX(),
+                            tempBS.getY());
+                }
+            }
+            index++;
+        }
+        reporte();
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_depenActionPerformed
+
+    private void panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseClicked
+        if(!numero.getText().equals("0")){
+            int x = evt.getX() - 26;
+            int y = evt.getY() - 50;
+            if(x>25 && y >25){
+                Nodo n = (Nodo) nodes.get(cont);
+                NodeBS nodoBS = n.getNodo();
+                cont++;
+                nodoBS.setX(x+26);
+                nodoBS.setY(y+50);
+                graphic.fillOval(x, y, 25, 25);
+                char [] arr = (n.getNombre()).toCharArray();
+                graphic.drawChars(arr, 0, arr.length, x, y);
+                int num = Integer.parseInt(numero.getText());
+                num--;
+                numero.setText(""+num);
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Por favor escoja otro sitio"
+                        ,"Error",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this,"Ya no puede agregar mas nodos", "Error"
+                    , JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_panelMouseClicked
+
+    private void panelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseMoved
+        x.setText(""+evt.getX());
+        y.setText(""+evt.getY());
+    }//GEN-LAST:event_panelMouseMoved
 
     /**
      * @param args the command line arguments
@@ -130,7 +285,15 @@ public class DrawGraph extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton depen;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel numero;
     private javax.swing.JPanel panel;
+    private javax.swing.JTextArea report;
+    private javax.swing.JLabel x;
+    private javax.swing.JLabel y;
     // End of variables declaration//GEN-END:variables
 }

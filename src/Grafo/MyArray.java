@@ -76,6 +76,17 @@ public class MyArray {
     
     }
     
+    public Object get(int num){
+        MyArray p = this;
+        int cont =0;
+        while(p!= null && cont != num){
+            cont++;
+            p = p.link;
+        }
+        return p.info;
+    }
+    
+    
     
     public int size(){
         int cont = 0;

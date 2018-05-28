@@ -34,11 +34,14 @@ public class NodeBS {
     private LocalDate fechaInicio;
     private String rootPath;
     private String dep;
+    private int x;
+    private int y;
 
     
     public NodeBS (String nombre, int time){
         this.nombre = nombre;
         this.time = time;
+        this.dep = "";
     }
     
     
@@ -51,6 +54,7 @@ public class NodeBS {
         this.fechaInicio = date;
         this.time = time;
         this.rootPath = "files/"+user;
+        this.dep = "";
         Archivo.createProyectFile(this, user);
     }
     
@@ -74,6 +78,7 @@ public class NodeBS {
         this.currentBudget = budget;
         this.fechaInicio = date;
         this.rootPath = path;
+        this.dep = "";
         System.out.println("path: "+ this.rootPath);
     }
     
@@ -95,7 +100,6 @@ public class NodeBS {
         this.isParent = Parent;
         this.currentBudget = budget;
         this.rootPath = parent.getRootPath();
-        this.fechaInicio = parent.getFechaInicio().plusDays(time);
         parent.addChildren(this);
         if (!Parent){
             Archivo.createEntregable(this);
@@ -382,7 +386,7 @@ public class NodeBS {
      * @return Un nodo con la información de la linea
      */
     
-    private static NodeBS stringToNode(NodeBS root,String str, String path){
+    private static NodeBS stringToNode(NodeBS root,String str, String path) throws FileNotFoundException{
         //System.out.println("la linea es: "+str);
         String [] line = str.split("##");
         long budget = Long.parseLong(line[2]);
@@ -407,7 +411,23 @@ public class NodeBS {
                 par = false;
             }
             NodeBS nodo = new NodeBS(parent,line[1],budget,time,par);
+            path = parent.getRootPath();
+            if(!par){
+                path+="/"+nodo.getNombre()+".txt";
+                File f = new File(path);
+                Scanner lector = new Scanner(f);
+                String linea = lector.nextLine();
+                if(lector.hasNext()){
+                    linea = lector.nextLine();
+                    nodo.setDep(linea);
+                    //nodo.setFechaInicio(root);
+                }
+                else{
+                    nodo.setDep("");
+                }
+            }
             return nodo;
+            
         }
     }
     
@@ -467,11 +487,6 @@ public class NodeBS {
     public static NodeBS fileToTree(File f) throws Exception{
         NodeBS root = null;
         String name = f.getParent();
-        //System.out.println("name: "+name);
-        //System.out.println("canonical p: "+f.getCanonicalPath());
-        //System.out.println("path: "+f.getPath());
-        //System.out.println("absolute path: "+f.getAbsolutePath());
-        //System.out.println("parent: "+f.getParent());
         try {
             Scanner lector = new Scanner(f);
             String line = lector.nextLine();
@@ -483,6 +498,7 @@ public class NodeBS {
                 NodeBS aux = stringToNode(root,line,null);
                 NodeBS parent = findByIndex(root,parentIndex(aux.getIndex()));
                 root.add(parent, aux);
+                
             }
             lector.close();
             
@@ -617,25 +633,56 @@ public class NodeBS {
         System.out.println("path:"+ pathName);
         File f = new File(pathName);
         try {
-            //if(!f.exists()){
                 f.createNewFile();
                 FileWriter fstream = new FileWriter(f, true);
                 BufferedWriter out = new BufferedWriter(fstream);
-                //out.write(this.toInfo());
                 out.newLine();
                 out.write(dep);
                 out.close();
-            //}
             
         } catch (IOException ex) {
             Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void setFechaInicio(NodeBS root){
+        String k[] = this.dep.split(",");
+        if(k.length == 0){
+            this.fechaInicio = this.fechaInicio.plusDays(this.time);
+        }
+        else{
+            LocalDate max = NodeBS.find(root, k[0]).getFechaInicio();
+            for(int i = 1; i < k.length; i++){
+                NodeBS n = NodeBS.find(root, k[i]);
+                if(max.isBefore(n.getFechaInicio())){
+                    max = n.getFechaInicio();
+                }
+            }
+            this.fechaInicio = max; 
+        }
+    }
+    
+    public String getDep() {
+        return dep;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
     
     
-    
-    
-    
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
     
     /**
      * Esta subrutina muestra toda la información del nodo en consola

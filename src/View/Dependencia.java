@@ -20,6 +20,7 @@ public class Dependencia extends javax.swing.JFrame {
 
     private DefaultListModel model;
     private NodeBS node;
+    private NodeBS raiz;
     
     private void fillList(NodeBS raiz){
         if(raiz != null){
@@ -43,6 +44,7 @@ public class Dependencia extends javax.swing.JFrame {
         model = new DefaultListModel();
         lista.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         this.node = node;
+        this.raiz = raiz;
         fillList(raiz);
         lista.setModel(model);
         nombreL.setText(node.getNombre());
@@ -227,6 +229,7 @@ public class Dependencia extends javax.swing.JFrame {
         str = str.substring(1);
         depenL.setText(str);
         node.setDep(str);
+        node.setFechaInicio(raiz);
     }//GEN-LAST:event_agregarBActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
