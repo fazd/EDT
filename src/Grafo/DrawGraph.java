@@ -8,7 +8,8 @@ package Grafo;
 import View.NodeBS;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.File;
+import java.time.LocalDate;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,6 +25,7 @@ public class DrawGraph extends javax.swing.JFrame {
     private Graphics graphic;
     private int cont;
     private NodeBS root;
+    public static JFrame frame;
     
     
     public DrawGraph(Grafo g, NodeBS root){
@@ -54,15 +56,24 @@ public class DrawGraph extends javax.swing.JFrame {
         panel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         numero = new javax.swing.JLabel();
-        x = new javax.swing.JLabel();
-        y = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         report = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        primeraact = new javax.swing.JLabel();
+        ultimaact = new javax.swing.JLabel();
+        precioT = new javax.swing.JLabel();
+        Atrás = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
+        depen.setBackground(new java.awt.Color(255, 255, 255));
+        depen.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
         depen.setText("dependencias");
         depen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +81,7 @@ public class DrawGraph extends javax.swing.JFrame {
             }
         });
 
-        panel.setBackground(new java.awt.Color(255, 0, 255));
+        panel.setBackground(new java.awt.Color(238, 112, 82));
         panel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 panelMouseMoved(evt);
@@ -90,98 +101,189 @@ public class DrawGraph extends javax.swing.JFrame {
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 434, Short.MAX_VALUE)
         );
 
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
         jLabel1.setText("Cantidad de nodos");
 
+        numero.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
         numero.setText("numero");
 
-        x.setText("jLabel2");
-
-        y.setText("jLabel3");
-
-        jLabel4.setText("X");
-
-        jLabel5.setText("Y");
-
         report.setColumns(20);
+        report.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
         report.setRows(5);
         jScrollPane1.setViewportView(report);
+
+        jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        jLabel2.setText("Reporte ");
+
+        jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        jLabel3.setText("Primera act");
+
+        jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        jLabel6.setText("Ultima act");
+
+        jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        jLabel7.setText("Precio total");
+
+        Atrás.setBackground(new java.awt.Color(255, 255, 255));
+        Atrás.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
+        Atrás.setText("Atrás");
+        Atrás.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AtrásActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        jLabel4.setText("GRAFO");
+
+        jLabel5.setText("Reporte de finalización");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addGap(18, 18, 18)
-                            .addComponent(y))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addGap(18, 18, 18)
-                            .addComponent(x)))
-                    .addComponent(depen)
-                    .addComponent(jLabel1)
-                    .addComponent(numero)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(70, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(209, 209, 209)
+                        .addComponent(jLabel4)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel3))
+                        .addGap(79, 79, 79)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(primeraact, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(precioT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ultimaact, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Atrás, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(numero)
+                            .addComponent(depen))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane1)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(76, 76, 76)
+                                .addComponent(jLabel5)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(numero)
-                        .addGap(18, 18, 18)
-                        .addComponent(depen)
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(72, 72, 72)
+                                .addComponent(depen)
+                                .addGap(73, 73, 73))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
+                        .addComponent(jLabel2)
+                        .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(x)
-                            .addComponent(jLabel4))
-                        .addGap(28, 28, 28)
+                            .addComponent(jLabel3)
+                            .addComponent(primeraact, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(y)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel6)
+                            .addComponent(ultimaact, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(precioT, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Atrás)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    /**
+     * Esta subrutina se encarga de calcular las fechas y parte del reporte del grafo
+     */
+    
+    
     private void calcFechas(){
         int i = 0;
+        LocalDate fecha =this.root.getFechaInicio();
+        LocalDate maximo = null;
+        LocalDate minimo = null;
+        NodeBS max = null;
+        NodeBS min = null;
+        int total = 0;
         while(i < nodes.size()){
             Nodo n = (Nodo) nodes.get(i);
             NodeBS nodo = n.getNodo();
             nodo.setFechaInicio(root);
+            total+= nodo.getBudget();
+            if(i==0){
+                maximo = minimo = nodo.getFechaInicio();
+                max = min = nodo;
+            }
+            if(maximo.isBefore(nodo.getFechaInicio())){
+                maximo = nodo.getFechaInicio();
+                max = nodo;
+            }
+            if(minimo.isAfter(nodo.getFechaInicio())){
+                minimo = nodo.getFechaInicio();
+                min = nodo;
+            }
             i++;
         }
+        primeraact.setText(min.getNombre());
+        ultimaact.setText(max.getNombre());
+        precioT.setText(""+total);
     }
     
+    /**
+     * subrutina que se encarga de calcular y mostrar el reporte del grafo
+     */
     
-    private void reporte(){
+    private void reporte (){
         int index = 0;
         String text="";
+        calcFechas();
         while(index < nodes.size()){
             Nodo n = (Nodo) nodes.get(index);
-            System.out.println("found: "+ n.getNombre());
+            //System.out.println("found: "+ n.getNombre());
             NodeBS nodo = n.getNodo();
-            text +=nodo.getNombre()+": "+nodo.getFechaInicio()+"\n";
+            text+= nodo.getNombre()+"\n";
+            text+="Fecha de inicio: "+nodo.getFechaInicio().minusDays(nodo.getTime())+"\n";
+            text+="Fecha de Finalización: "+nodo.getFechaInicio()+"\n";
             report.setText(text);
             index++;
         }
@@ -192,25 +294,24 @@ public class DrawGraph extends javax.swing.JFrame {
         int index = 0;
         while(index < nodes.size()){
             Nodo n = (Nodo) nodes.get(index);
-            System.out.println("found: "+ n.getNombre());
+            //System.out.println("found: "+ n.getNombre());
             NodeBS nodo = n.getNodo();
             String str = nodo.getDep();
-            System.out.println(str);
+            //System.out.println(str);
             if(!str.equals("")){
                 String dep [] = str.split(",");
                 for(int i = 0; i < dep.length; i++){
                     Nodo temp = MyArray.find(nodes, dep[i]);
                     NodeBS tempBS = temp.getNodo();
-                    System.out.println("x;"+nodo.getX());
-                    System.out.println("y:"+nodo.getY());
-                    System.out.println("x2;"+tempBS.getX());
-                    System.out.println("y2:"+tempBS.getY());
+                    //ArrowHead.drawArrowHead(graphic, tempBS.getX(), nodo.getX(), 
+                    //        tempBS.getY(), nodo.getY());
                     graphic.drawLine(nodo.getX(), nodo.getY(), tempBS.getX(),
                             tempBS.getY());
                 }
             }
             index++;
         }
+        
         reporte();
         
         
@@ -218,14 +319,14 @@ public class DrawGraph extends javax.swing.JFrame {
 
     private void panelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseClicked
         if(!numero.getText().equals("0")){
-            int x = evt.getX() - 26;
-            int y = evt.getY() - 50;
+            int x = evt.getX()-20;
+            int y = evt.getY() - 15;
             if(x>25 && y >25){
                 Nodo n = (Nodo) nodes.get(cont);
                 NodeBS nodoBS = n.getNodo();
                 cont++;
-                nodoBS.setX(x+26);
-                nodoBS.setY(y+50);
+                nodoBS.setX(x);
+                nodoBS.setY(y);
                 graphic.fillOval(x, y, 25, 25);
                 char [] arr = (n.getNombre()).toCharArray();
                 graphic.drawChars(arr, 0, arr.length, x, y);
@@ -245,9 +346,13 @@ public class DrawGraph extends javax.swing.JFrame {
     }//GEN-LAST:event_panelMouseClicked
 
     private void panelMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMouseMoved
-        x.setText(""+evt.getX());
-        y.setText(""+evt.getY());
     }//GEN-LAST:event_panelMouseMoved
+
+    private void AtrásActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtrásActionPerformed
+        this.setVisible(false);
+        frame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_AtrásActionPerformed
 
     /**
      * @param args the command line arguments
@@ -285,15 +390,21 @@ public class DrawGraph extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Atrás;
     private javax.swing.JButton depen;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel numero;
     private javax.swing.JPanel panel;
+    private javax.swing.JLabel precioT;
+    private javax.swing.JLabel primeraact;
     private javax.swing.JTextArea report;
-    private javax.swing.JLabel x;
-    private javax.swing.JLabel y;
+    private javax.swing.JLabel ultimaact;
     // End of variables declaration//GEN-END:variables
 }

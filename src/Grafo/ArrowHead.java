@@ -11,6 +11,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import javafx.scene.shape.Line;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -20,61 +22,63 @@ import javax.swing.JPanel;
  */
 public class ArrowHead
 {
-    public ArrowHead()
-    {
-        JFrame f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.getContentPane().add(new ArrowPanel());
-        f.setSize(400,400);
-        f.setLocation(200,200);
-        f.setVisible(true);
-    }
-  
-    public static void main(String[] args)
-    {
-        new ArrowHead();
-    }
-}
-  
-class ArrowPanel extends JPanel {
-    double phi;
-    int barb;
-  
-    public ArrowPanel()
-    {
-        phi = Math.toRadians(40);
-        barb = 20;
-    }
-  
-    protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                            RenderingHints.VALUE_ANTIALIAS_ON);
-        int w = getWidth();
-        int h = getHeight();
-        Point sw = new Point(w/8, h*7/8);
-        Point ne = new Point(w*7/8, h/8);
-        g2.draw(new Line2D.Double(sw, ne));
-        drawArrowHead(g2, sw, ne, Color.red);
-        drawArrowHead(g2, ne, sw, Color.blue);
-    }
-  
-    private void drawArrowHead(Graphics2D g2, Point tip, Point tail, Color color)
-    {
-        g2.setPaint(color);
-        double dy = tip.y - tail.y;
-        double dx = tip.x - tail.x;
-        double theta = Math.atan2(dy, dx);
-        //System.out.println("theta = " + Math.toDegrees(theta));
-        double x, y, rho = theta + phi;
-        for(int j = 0; j < 2; j++)
-        {
-            x = tip.x - barb * Math.cos(rho);
-            y = tip.y - barb * Math.sin(rho);
-            g2.draw(new Line2D.Double(tip.x, tip.y, x, y));
-            rho = theta - phi;
-        }
+    public  static void drawArrowHead(Graphics g2, int x2, int x1, int y2, int y1){
+        Line shape = new Line(x1,y1,x2,y2);
+
+        double angle = Math.atan2(        //find angle of line
+
+                shape.getEndY()-shape.getStartY(),
+
+                shape.getEndX()-shape.getStartX());
+
+
+        int arrowHeight = 9;                 // change as seen fit
+
+        int halfArrowWidth = 5;              // this too
+
+        Point2D end = new Point2D.Double(shape.getEndX(), shape.getEndY());
+
+        Point2D aroBase = new Point2D.Double(
+
+                shape.getEndX() - arrowHeight*Math.cos(angle),
+
+                shape.getEndY() - arrowHeight*Math.sin(angle)
+
+                ); //determine the location of middle of
+
+                   //the base of the arrow - basically move arrowHeight
+
+                   //distance back towards the starting point
+
+        Point2D end1 = new Point2D.Double(
+
+                aroBase.getX()-halfArrowWidth*Math.cos(angle-Math.PI/2),
+
+                aroBase.getY()-halfArrowWidth*Math.sin(angle-Math.PI/2));
+
+        //locate one of the points, use angle-pi/2 to get the
+
+        //angle perpendicular to the original line(which was 'angle')
+
+        Point2D end2 = new Point2D.Double(
+
+                aroBase.getX()+halfArrowWidth*Math.cos(angle-Math.PI/2),
+ 
+                aroBase.getY()+halfArrowWidth*Math.sin(angle-Math.PI/2));
+        Line2D line1 = (new Line2D.Double(end1,end2));
+
+        Line2D line2 = (new Line2D.Double(end,end2));
+
+        Line2D line3 = (new Line2D.Double(end,end1));
+        
+        Graphics2D g1 = (Graphics2D) g2;
+        g1.draw(line3);
+        g1.draw(line1);
+        g1.draw(line2);
+        g1.setColor(Color.black);
+        int []xpoint = {(int)end1.getX(), (int)end.getX(), (int)end2.getX()};
+        int []ypoint = {(int)end1.getY(), (int)end.getY(), (int)end2.getY()};
+                
+        g1.fillPolygon(xpoint,ypoint,3);
     }
 }

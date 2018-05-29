@@ -1,2 +1,0 @@
-1.6.1##entr 6##3##2018-06-13##2##false##3
-entregable 2,entregable 3,entregable 4

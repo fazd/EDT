@@ -44,6 +44,16 @@ public class NodeBS {
         this.dep = "";
     }
     
+    /**
+     * Este constructor se encarga de crear un nodoBS
+     * @param nombre nombre del nodo
+     * @param budget presupuesto del nodo
+     * @param date fecha de inicio del nodo
+     * @param time tiempo de duracion
+     * @param user usuario que está agregando
+     * @throws Exception si el archivo no existe
+     */
+    
     
     public NodeBS(String nombre, long budget, LocalDate date, int time, String user) throws Exception {
         this.nombre = nombre;
@@ -101,6 +111,7 @@ public class NodeBS {
         this.currentBudget = budget;
         this.rootPath = parent.getRootPath();
         parent.addChildren(this);
+        this.fechaInicio= parent.getFechaInicio();
         if (!Parent){
             Archivo.createEntregable(this);
         }
@@ -509,6 +520,14 @@ public class NodeBS {
     }
     
     
+    /**
+     * subrutina que se encarga de agregar todos los entregables a un grafo
+     * @param raiz raiz del arbol
+     * @param node nodo que puede ser o no agregado
+     * @param g  grafo donde se agregan los nodos
+     */
+    
+    
     public static void findEntregables(NodeBS raiz,NodeBS node, Grafo g){
         if(node != null){
             if(!node.isIsParent()){
@@ -521,6 +540,13 @@ public class NodeBS {
             }
         }
     }
+    
+    /**
+     * Funcion que devuelve un grafo y se encarga de volver un arbol a un grafo
+     * @param root raiz del arbol
+     * @return grafo del arbol
+     * @throws FileNotFoundException no se encontró un archivo 
+     */
     
     
     public static Grafo toGraph(NodeBS root) throws FileNotFoundException{
@@ -618,14 +644,29 @@ public class NodeBS {
     }
 
     
+    /**
+     * Devuelve la fehca de inicio del proyecto
+     * @return fecha de inicio del proyecto
+     */
+    
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
+    
+    /**
+     * ruta del archivo donde está guardada 
+     * @return ruta del archivo que contiene este paquete o entregable
+     */
 
     public String getRootPath() {
         return rootPath;
     }
 
+    /**
+     * Esta subrutina se encarga de asignar dependencias a un nodo
+     * @param dep  dependencias que se quieren asignar
+     */
+    
     public void setDep(String dep) {
         this.dep = dep;
         String folder = rootPath;
@@ -645,13 +686,22 @@ public class NodeBS {
         }
     }
 
+    /**
+     * eesta subrutina se encarga de transformar la fecha de inicio del entregable por la correcta
+     * @param root raiz del arbol
+     */
+    
     public void setFechaInicio(NodeBS root){
         String k[] = this.dep.split(",");
-        if(k.length == 0){
-            this.fechaInicio = this.fechaInicio.plusDays(this.time);
+        //System.out.println("K length: "+k.length);
+        if(k.length == 1 && k[0].equals("")){
+            System.out.println("entra aqui el nodo: "+this.nombre);
+            this.fechaInicio = root.getFechaInicio().plusDays(this.time);
         }
         else{
-            LocalDate max = NodeBS.find(root, k[0]).getFechaInicio();
+            NodeBS maximo = NodeBS.find(root, k[0]);
+            System.out.println("maximo:"+k[0]);
+            LocalDate max = maximo.getFechaInicio();
             for(int i = 1; i < k.length; i++){
                 NodeBS n = NodeBS.find(root, k[i]);
                 if(max.isBefore(n.getFechaInicio())){
@@ -662,23 +712,47 @@ public class NodeBS {
         }
     }
     
+    /**
+     * devuelve un string de dependencias
+     * @return string de dependencias
+     */
+    
     public String getDep() {
         return dep;
     }
 
+    /**
+     * Devuelve el valor dentro del grafo dibujado donde se encuentra 
+     * @return valor de X en el plano cartesiano
+     */
+    
     public int getX() {
         return x;
     }
+    
+    /**
+     * Devuelve el valor dentro del grafo dibujado donde se encuentra
+     * @return valor de Y en el plano cartesiano
+     */
 
     public int getY() {
         return y;
     }
     
-    
+    /**
+     * subrutina para asignar posicion dentro del plano cartesiano al grafo
+     * @param x posicion en X
+     */
 
     public void setX(int x) {
         this.x = x;
     }
+    
+    
+    /**
+     * subrutina para asignar posicion dentro del plano cartesiano al grafo
+     * @param y posicion en Y
+     */
 
     public void setY(int y) {
         this.y = y;
@@ -708,7 +782,7 @@ public class NodeBS {
     
     
     public String toInfo(){
-        String line = index+"##"+nombre+"##"+budget+"##"+fechaInicio.toString()+
+        String line = index+"##"+nombre+"##"+budget+"##"+fechaInicio+
                 "##"+time+"##"+isParent+"##"+currentBudget;
         return line;
     }

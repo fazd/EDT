@@ -16,6 +16,12 @@ public class Nodo {
     private NodeBS nodo;
     private MyArray nodos;
     private String nombre;
+   
+    /**
+     * Este constructor recibe un NodoBS y lo transforma en un nodo del grafo
+     * @param nodo  nodo que será guardado en el grafo
+     */
+    
     
     public Nodo(NodeBS nodo) {
         this.nodo = nodo;
@@ -23,12 +29,19 @@ public class Nodo {
         nombre = nodo.getNombre();
     }
 
+    /**
+     * nodo creado a partir de un nombre (para pruebas)
+     * @param nombre nombre del nodo
+     */
+    
     public Nodo(String nombre) {
         this.nombre = nombre;
         nodos = new MyArray();
     }
     
-    
+    /**
+     * esta subrutina imprime los nodos adyacentes a este
+     */
     
     public void print(){
         MyArray p = nodos;
@@ -41,19 +54,38 @@ public class Nodo {
         }
     }
     
+    /**
+     * Esta función agrega un nodo adyacente
+     * @param n 
+     */
     
     public void addAdy(Nodo n){
         nodos.add(n);
     }
 
+    /**
+     * esta funcion retorna la información del nodo
+     * @return retorna NodeBS almacenado
+     */
+    
     public NodeBS getNodo() {
         return nodo;
     }
 
+    /**
+     * Esta función retorna la lista de nodos adyacentes
+     * @return lista de nodos adyacentes
+     */
+    
     public MyArray getNodos() {
         return nodos;
     }
 
+    /**
+     * esta función retorna el nombre del nodo
+     * @return  nombre del nodo
+     */
+    
     public String getNombre() {
         return nombre;
     }

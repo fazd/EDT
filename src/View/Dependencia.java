@@ -22,6 +22,12 @@ public class Dependencia extends javax.swing.JFrame {
     private NodeBS node;
     private NodeBS raiz;
     
+    /**
+     * subrutina recursiva que se encarga de llenar la lista con las dependencias
+     * @param raiz  nodo del arbol en el que se está 
+     */
+    
+    
     private void fillList(NodeBS raiz){
         if(raiz != null){
             if(!raiz.isIsParent() && !raiz.getNombre().equals(node.getNombre())){

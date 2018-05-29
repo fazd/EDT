@@ -20,21 +20,38 @@ public class Grafo {
     private MyArray nodos;
     private MyArray aristas;
 
+    /**
+     * Este constructor crea el grafo e inicializa dos listas, nodos y aristas
+     */
+    
     public Grafo() {
         nodos = new MyArray();
         aristas = new MyArray();
     }
     
+    /**
+     * Esta subrutina agrega nodos al grafo
+     * @param n nodo que quiere ser agregado
+     */
     
     public void addNodo(Nodo n){
         nodos.add(n);
     }
     
+    /**
+     * Esta subrutina agrega una arista al grafo
+     * @param a nodo inicial
+     * @param b nodo final 
+     */
+    
+    
     public void addArista (Nodo a, Nodo b){
         aristas.add(new Arista(a,b));
     }
     
-    
+    /**
+     * Esta subrutina imprime el grafo
+     */
     
     public void print(){
         MyArray p = nodos;
@@ -47,6 +64,12 @@ public class Grafo {
             p= p.link;
         }
     }
+    
+    /**
+     * Esta subrutina crea las dependencias entre los nodos 
+     * @param in nodo que quiere tener dependencias 
+     * @throws FileNotFoundException si el archivo no existe
+     */
 
     public void makeDependencies(Nodo in) throws FileNotFoundException {
         NodeBS nodo = in.getNodo();
@@ -74,10 +97,20 @@ public class Grafo {
         }
     }
 
+    /**
+     * Función que retorna la lista de nodos
+     * @return lista de nodos
+     */
+    
     public MyArray getNodos() {
         return nodos;
     }
 
+    /**
+     * Funcion que retorna la lista de aristas
+     * @return lista de aristas
+     */
+    
     public MyArray getAristas() {
         return aristas;
     }
@@ -122,8 +155,8 @@ public class Grafo {
         g.addArista(n2, n6);
         g.addArista(n2, n7);
 
-        DrawGraph dg = new DrawGraph(g);
-        dg.setVisible(true);
+        //DrawGraph dg = new DrawGraph(g,);
+        //dg.setVisible(true);
         
         System.out.println("el tamaño es: "+g.nodos.size());
         g.print();
